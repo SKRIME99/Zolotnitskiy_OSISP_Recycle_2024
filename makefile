@@ -17,3 +17,4 @@ $(trash): $(trashc)
 	
 clean:
 	rm -f  $(trash) coursework.pdf
+

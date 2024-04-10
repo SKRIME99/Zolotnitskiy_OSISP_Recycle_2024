@@ -192,7 +192,7 @@ char *new_path)
     strcat(new_path, "/");
     strcat(new_path, path_name + index);
 }
-
+//
 void input_file_path(char *new_path)
 {
     char path_name[MAX_FILENAME_LEN];
