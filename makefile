@@ -5,16 +5,29 @@ UNLINK_FLAGS = -fpic -shared
 BUILD = ./build
 SRC = ./src
 
-trash = $(BUILD)/trash
-trashc = $(SRC)/trash.c
+unlink = $(BUILD)/unlink.so
+unlinkc = $(SRC)/unlink.c
+bin = $(BUILD)/bin
 
-.PHONY: clean 
+MAIN_OBJ = ./obj/main.o
+BINLIB_OBJ = ./obj/binlib.o
+HEADER = $(SRC)/binlib.h
 
-all:  $(trash)
+.PHONY: all clean
 
-$(trash): $(trashc)
-	$(CC) $(CFLAGS) $(trashc) -o $(trash)
-	
+all: $(unlink) $(bin)
+
+$(unlink): $(unlinkc)
+	$(CC) $(UNLINK_FLAGS) $(CFLAGS) $(unlinkc) -o $(unlink)
+
+$(bin): $(MAIN_OBJ) $(BINLIB_OBJ)
+	$(CC) $(CFLAGS) $(MAIN_OBJ) $(BINLIB_OBJ) -o $(bin)
+
+./obj/main.o: $(SRC)/main.c $(HEADER)
+	$(CC) $(CFLAGS) -c $(SRC)/main.c -o $(MAIN_OBJ)
+
+./obj/binlib.o: $(SRC)/binlib.c $(HEADER)
+	$(CC) $(CFLAGS) -c $(SRC)/binlib.c -o $(BINLIB_OBJ)
+
 clean:
-	rm -f  $(trash) coursework.pdf
-
+	rm -f $(unlink) $(bin) $(MAIN_OBJ) $(BINLIB_OBJ) coursework.pdf
